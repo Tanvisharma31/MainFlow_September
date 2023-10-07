@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation Message</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h3 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+            opacity: 0; /* Initial opacity set to 0 */
+            animation: fadeIn 1s ease-in-out forwards; /* Fade-in animation */
+        }
+
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3e8e41; /* Updated button color */
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Transition effect for hover */
+        }
+
+        button:hover {
+            background-color: #388e3c; /* New color on hover */
+        }
+
+        a {
+            text-decoration: none; /* Remove underline from links */
+            color: #fff; /* Set link color */
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            .container {
+                max-width: 100%;
+                padding: 10px;
+            }
+
+            h3 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Thank you for registering on our website</h3>
+        <div class="message">
+            Now check your email inbox for a confirmation email.<br>
+            If the email doesn't appear, don't forget to check your spam folder.
+        </div>
+        <div>
+            <button><a href="/login">Login after confirmation</a></button>
+        </div>
+    </div>
+</body>
+</html>

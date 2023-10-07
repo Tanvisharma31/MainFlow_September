@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+
+        /* Message styles */
+        .message {
+            position: fixed;
+            top: 5px;
+            width: 90%;
+            display: none;
+        }
+
+        .message li {
+            margin-bottom: 5px;
+        }
+
+        /* Popup message styles */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            z-index: 9999;
+        }
+
+        .popup.hide {
+            display: none;
+        }
+
+        /*  */
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: fade-in 0.5s ease;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        input[type="text"],
+        select,
+        textarea,
+        input[type="number"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group {
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group label {
+            display: inline-block;
+            margin-right: 10px;
+            color: #333;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Custom styles for image input fields */
+        .image-input-wrapper {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .image-input-wrapper label {
+            margin-right: 10px;
+        }
+
+        .image-input-wrapper input[type="file"] {
+            display: none;
+        }
+
+        .image-input-wrapper .custom-file-upload {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .image-input-wrapper .custom-file-upload:hover {
+            background-color: #45a049;
+        }
+
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+                /* Add responsive styles for smaller devices */
+        @media (max-width: 600px) {
+            form {
+                max-width: 100%;
+                padding: 10px;
+            }
+
+            label {
+                font-size: 14px;
+            }
+
+            input[type="text"],
+            select,
+            textarea,
+            input[type="number"],
+            input[type="file"] {
+                padding: 8px;
+                margin-bottom: 15px;
+            }
+
+            .image-preview {
+                width: 80px;
+                height: 80px;
+                margin-right: 5px;
+            }
+
+            .image-input-wrapper .custom-file-upload {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+
+            .checkbox-group label {
+                font-size: 14px;
+            }
+
+            input[type="submit"] {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% if messages %}
+    <div class="message alert alert-warning alert-dismissible fade show" role="alert">
+        <ul>
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+        </ul>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
+    <div id="popupMessage" class="popup hide"></div>
+    <h1>Add Product</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="productName">Product Name</label>
+        <input type="text" id="productName" name="productName" required>
+
+        <label for="productCompany">Product Company</label>
+        <select id="productCompany" name="productCompany" required>
+            <option value="">Select a company</option>
+            <option value="oppo">Oppo</option>
+            <option value="samsung">Samsung</option>
+        </select>
+
+        <label for="productCategory">Product Category</label>
+        <input type="text" id="productCategory" name="productCategory" required>
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" required></textarea>
+
+        <label for="keywords">Keywords</label>
+        <textarea id="keywords" name="keywords" required></textarea>
+
+        <div class="image-input-wrapper">
+            <label>Image 1</label>
+            <input type="file" id="image1" name="image1" accept="image/*" required>
+            <div class="image-preview"></div>
+            <label for="image1" class="custom-file-upload">Upload</label>
+        </div>
+
+        <div class="image-input-wrapper">
+            <label>Image 2</label>
+            <input type="file" id="image2" name="image2" accept="image/*" required>
+            <div class="image-preview"></div>
+            <label for="image2" class="custom-file-upload">Upload</label>
+        </div>
+
+        <div class="image-input-wrapper">
+            <label>Image 3</label>
+            <input type="file" id="image3" name="image3" accept="image/*" required>
+            <div class="image-preview"></div>
+            <label for="image3" class="custom-file-upload">Upload</label>
+        </div>
+
+        <div class="image-input-wrapper">
+            <label>Image 4</label>
+            <input type="file" id="image4" name="image4" accept="image/*" required>
+            <div class="image-preview"></div>
+            <label for="image4" class="custom-file-upload">Upload</label>
+        </div>
+
+        <div class="checkbox-group">
+            <label>Availability:</label>
+            <label for="availabilityInStock">
+                <input type="checkbox" id="availabilityInStock" name="availability" value="in_stock">
+                In Stock
+            </label>
+            <label for="availabilityOutOfStock">
+                <input type="checkbox" id="availabilityOutOfStock" name="availability" value="out_of_stock">
+                Out of Stock
+            </label>
+        </div>
+
+        <label for="price">Price</label>
+        <input type="number" id="price" name="price" required>
+
+        <input type="submit" value="Add Product">
+    </form>
+
+    <script>
+        // Image preview function
+        function readURL(input, previewElement) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    previewElement.innerHTML = '<img src="' + e.target.result + '">';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Handle file input change event
+        var fileInputs = document.querySelectorAll('input[type="file"]');
+        var imagePreviews = document.querySelectorAll('.image-preview');
+        for (var i = 0; i < fileInputs.length; i++) {
+            fileInputs[i].addEventListener('change', function () {
+                var preview = this.parentElement.querySelector('.image-preview');
+                readURL(this, preview);
+            });
+        }
+    </script>
+      <script>
+        // Show popup message
+        function showPopupMessage(message, className) {
+          var popup = document.getElementById('popupMessage');
+          popup.textContent = message;
+          popup.className = 'popup ' + className;
+          setTimeout(function () {
+            popup.classList.add('hide');
+          }, 3000);
+        }
+    
+        // Handle Django message
+        var djangoMessage = document.querySelector('.message');
+        if (djangoMessage) {
+          var messageText = djangoMessage.textContent.trim();
+          var messageClass = djangoMessage.getAttribute('class').split(' ')[1] || '';
+          showPopupMessage(messageText, messageClass);
+        }
+      </script>
+</body>
+
+</html>

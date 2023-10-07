@@ -1,0 +1,68 @@
+<!-- 
+<link rel="stylesheet" type="text/css"href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+<link rel="stylesheet" type="text/css" href="/static/index/css/bootstrap.css" />
+<link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet"> 
+-->
+
+<style>
+</style>
+
+<header class="header_section">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+            <a class="navbar-brand" href="/">
+                <span>
+                    Web Store
+                </span>
+            </a>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="s-1"> </span>
+                <span class="s-2"> </span>
+                <span class="s-3"> </span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+                    <ul class="navbar-nav  ">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/shop">Shop </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/shop/cart">Cart<sup>{{cart_p_count}}</sup> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#aboutLink"> About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#contactLink">Contact Us</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout"> Logout</a>
+                        </li>
+                        <li class="nav-item">
+                        	<a class="nav-link" href="/profile"> 
+                        	 <img src="/static/img/user-profile.jpg" alt=""> 
+                        	</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login"> Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/registration"> Register</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+<script type="text/javascript" src="/static/index/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/static/index/js/bootstrap.js"></script>

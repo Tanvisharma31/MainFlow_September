@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/index/css/bootstrap.css" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/colors.css">
+    <link rel="stylesheet" href="/static/css/btn.css">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/shop/cart.css">
+    <script src="/static/js/jquery.min.js"></script>
+</head>
+
+<body>
+    {% include 'header.html' %}
+    <main>
+
+        <div class="products" {% if cart_p_count == 0 %} style="height: 16rem;" {% endif %}>
+            {% if cart_p_count == 0 %}
+            <div class="empt-cart">
+                <span>Your cart is empty</span>
+                <a class="n-btn" href="/shop">Shop Now</a>
+            </div>
+            {% else %}
+            {% for item in cart_items %}
+            <div class="product">
+                <div class="p-img">
+                    <img src="{{item.product.image1.url}}" alt="">
+                </div>
+                <div class="p-details">
+                    <div class="l">
+                        <span class="p-name">{{item.product.product_name}}</span>
+                        <span>{{item.product.keywords}}</span>
+                        <span>${{item.product.price}}</span>
+                    </div>
+                    <div class="r">
+                        <div class="remove">
+                            <a href="/shop/remove/{{item.product.product_id}}"><button class="n-btn">Remove</button></a>
+                        </div>
+                        <div class="quantity">
+                            <a href="/shop/count/{{item.product.pk}}/remove"><span
+                                    class="min-{{item.product.product_id}}">-</span></a>
+                            <a href=""><span class="num-{{item.product.product_id}}">{{item.count}}</span></a>
+                            <a href="/shop/count/{{item.product.pk}}/add"><span
+                                    class="plus-{{item.product.product_id}}">+</span></a>
+                        </div>
+                        <div class="price t-price-{{item.product.product_id}}">{{item.product.price}}</div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <script>
+                document.querySelector(".t-price-{{item.product.product_id}}").innerText = "$" + parseInt("{{item.product.price}}") * document.querySelector(".num-{{item.product.product_id}}").innerText;
+
+                document.querySelector(".plus-{{item.product.product_id}}").addEventListener('click', () => {
+                    document.querySelector(".num-{{item.product.product_id}}").innerText = parseInt(document.querySelector(".num-{{item.product.product_id}}").innerText) + 1;
+                    document.querySelector(".t-price-{{item.product.product_id}}").innerText = "$" + parseInt("{{item.product.price}}") * document.querySelector(".num-{{item.product.product_id}}").innerText;
+                })
+                document.querySelector(".min-{{item.product.product_id}}").addEventListener('click', () => {
+                    if (document.querySelector(".num-{{item.product.product_id}}").innerText > 1) {
+                        document.querySelector(".num-{{item.product.product_id}}").innerText = parseInt(document.querySelector(".num-{{item.product.product_id}}").innerText) - 1;
+                        document.querySelector(".t-price-{{item.product.product_id}}").innerText = "$" + parseInt("{{item.product.price}}") * document.querySelector(".num-{{item.product.product_id}}").innerText;
+                    }
+                })
+            </script>
+            {% endfor %}
+            {% endif %}
+        </div>
+        {% if cart_p_count != 0 %}
+        <div class="checkout">
+            <span class="tam">The total amount</span>
+            <div>
+                <span>Product Amount</span>
+                <span id="t-a">${{total_amount}}</span>
+            </div>
+            <div>
+                <span>Shipping Charge</span>
+                <span id="s-c">$10</span>
+            </div>
+            <hr>
+            <div>
+                <span>The total amount of (including GST) </span>
+                <span id="t-a-p">$110</span>
+            </div>
+            <a class="n-btn" href="/orders/checkout/?action=pay">CHECKOUT</a>
+        </div>
+        {% endif %}
+        <div class="ddate">
+            <span><b>Expected delivery date</b> <br>Aug, 14 - Aug, 15 | 2023</span>
+            <hr>
+            <div class="payment-method">
+                <img src="/static/svg/upi-icon.svg" alt="">
+                <img src="/static/svg/rupay-icon.svg" alt="">
+                <img src="/static/svg/mastercard.svg" alt="">
+                <img src="/static/svg/visa-logo.svg" alt="">
+            </div>
+        </div>
+    </main>
+    <script>
+        const ta = document.getElementById('t-a'),
+            sc = document.getElementById('s-c'),
+            tap = document.getElementById('t-a-p');
+
+        tap.innerText ="$" +  parseInt(ta.innerText.replace("$", "")) + parseInt(sc.innerText.replace("$", ""))
+    </script>
+    {% if order is not None %}
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+            "key": "rzp_test_75MVIilzirkhvb",
+            "name": "RKWebstore",
+            "description": "Payment for {{course.name}}",
+            "image": "/static/img/logo.jpg",
+            "order_id": "{{order.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "callback_url": "http://{{domain}}/orders/verify-payment",
+            "prefill": {
+                "name": "{{name}}",
+                "email": "{{user.email}}",
+                "contact": "+91-"
+            },
+            "theme": {
+                "color": "#64bcf4"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        // document.getElementById('rzp-button1').onclick = function (e) {
+        //     rzp1.open();
+        //     e.preventDefault();
+        // }
+        rzp1.open();
+    </script>
+    {% endif %}
+</body>
+
+</html>

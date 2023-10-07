@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Account</title>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" type="text/css"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/profilepage.css">
+	<link rel="stylesheet" href="/static/css/header.css">
+</head>
+
+<body>
+	{% include 'header.html' %}
+	<section class="py-5">
+		<div class="container">
+			<div class="bg-white shadow rounded-lg d-block d-sm-flex">
+				<div class="profile-tab-nav border-right">
+					<div class="p-4">
+						<form method="POST" enctype="multipart/form-data" id="propic-form">
+							{% csrf_token %}
+							<div class="img-circle text-center mb-3">
+								<img src="{{userdata.propic.url}}" alt="propic" class="shadow" id="propicimg">
+								<input type="file" name="propic" id="propic" style="display:none;">
+								<label for="propic" id="uploadBtn">Choose Photo</label>
+								<!-- <button type="submit">Update Profile Picture</button> -->
+							</div>
+						</form>
+						<script>
+							const img = document.querySelector("#propicimg");
+							const propic = document.querySelector("#propic");
+							const uploadBtn = document.querySelector("#uploadBtn");
+							const propicForm = document.querySelector("#propic-form");
+
+							propic.addEventListener('change', function(){
+								const choosedFile = this.files[0];
+								if (choosedFile){
+									const reader = new FileReader();
+									reader.addEventListener('load', function(){
+										img.setAttribute('src', reader.result);
+										// Automatically submit the form after the image is chosen
+										propicForm.submit();
+									});
+
+									reader.readAsDataURL(choosedFile)
+								}
+							});
+						</script>
+						<h6 class="text-center">{{user.email}}</h6>
+						<h4 class="text-center">{{userdata.name}} {{userdata.surname}}</h4>
+					</div>
+					<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+						<a class="nav-link active" id="account-tab" data-toggle="pill" href="#account" role="tab"
+							aria-controls="account" aria-selected="true">
+							<i class="fa fa-home text-center mr-1"></i>
+							Account
+						</a>
+						<a class="nav-link" id="password-tab"  href="/password_reset" role="tab"
+							aria-controls="password" aria-selected="false">
+							<i class="fa fa-key text-center mr-1"></i>
+							Password
+						</a>
+						<a class="nav-link" id="order-history" data-toggle="pill" href="#order-h" role="tab"
+							aria-controls="security" aria-selected="false">
+							<i class="fa fa-table text-center mr-1"></i>
+							Order History
+						</a>
+						<a class="nav-link" id="address-tab" data-toggle="pill" href="#address" role="tab"
+							aria-controls="address" aria-selected="false">
+							<i class="fa fa-map text-center mr-1"></i>
+							Address
+						</a>
+						<a class="nav-link" id="other-tab" data-toggle="pill" href="#other" role="tab"
+							aria-controls="other" aria-selected="false">
+							<i class="fa fa-bell text-center mr-1"></i>
+							Other
+						</a>
+					</div>
+				</div>
+				<div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
+					<div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
+						<h3 class="mb-4">Account Info</h3>
+						<form method="post">
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>First Name</label>
+										<input type="text" name="fname" class="form-control"
+											placeholder="{{userdata.name}}">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Last Name</label>
+										<input type="text" name="lname" class="form-control"
+											placeholder="{{userdata.surname}}">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Email</label>
+										<input disabled type="text" name="email" class="form-control"
+											placeholder="{{userdata.email}}">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Phone number</label>
+										<input disabled type="text" name="phone" class="form-control"
+											placeholder="+91 {{userdata.phone}}">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Date of Birth</label>
+										<input type="text" name="dob" class="form-control"
+											placeholder="{{userdata.dob}}">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Gender</label>
+										<input type="text" name="gender" class="form-control"
+											placeholder="{{userdata.gender}}">
+									</div>
+								</div>
+							</div>
+							<div>
+								<button class="btn btn-primary" type="submit">Update</button>
+							</div>
+						</form>
+					</div>
+					<div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
+						<h3 class="mb-4">Password Settings</h3>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Old password</label>
+									<input type="password" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>New password</label>
+									<input type="password" class="form-control">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Confirm new password</label>
+									<input type="password" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div>
+							<button class="btn btn-primary">Update</button>
+							<button class="btn btn-light">Cancel</button>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="order-h" role="tabpanel" aria-labelledby="order-history">
+						<h3 class="mb-4">Order History</h3>
+						<div class="row order-table">
+							<table>
+								<thead>
+									<tr>
+										<th>Order ID</th>
+										<th>Date</th>
+										<th>Items</th>
+										<th>Total</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>#1001</td>
+										<td>2023-06-01</td>
+										<td>Product A, Product B</td>
+										<td>$100</td>
+										<td>Delivered</td>
+									</tr>
+									<tr>
+										<td>#1002</td>
+										<td>2023-05-25</td>
+										<td>Product C</td>
+										<td>$50</td>
+										<td>Cancelled</td>
+									</tr>
+									<tr>
+										<td>#1001</td>
+										<td>2023-06-01</td>
+										<td>Product A, Product B</td>
+										<td>$100</td>
+										<td>Delivered</td>
+									</tr>
+									<tr>
+										<td>#1002</td>
+										<td>2023-05-25</td>
+										<td>Product C</td>
+										<td>$50</td>
+										<td>Cancelled</td>
+									</tr>
+									<tr>
+										<td>#1001</td>
+										<td>2023-06-01</td>
+										<td>Product A, Product B</td>
+										<td>$100</td>
+										<td>Delivered</td>
+									</tr>
+									<tr>
+										<td>#1002</td>
+										<td>2023-05-25</td>
+										<td>Product C</td>
+										<td>$50</td>
+										<td>Cancelled</td>
+									</tr>
+									<tr>
+										<td>#1001</td>
+										<td>2023-06-01</td>
+										<td>Product A, Product B</td>
+										<td>$100</td>
+										<td>Delivered</td>
+									</tr>
+									<tr>
+										<td>#1002</td>
+										<td>2023-05-25</td>
+										<td>Product C</td>
+										<td>$50</td>
+										<td>Cancelled</td>
+									</tr>
+									<tr>
+										<td>#1001</td>
+										<td>2023-06-01</td>
+										<td>Product A, Product B</td>
+										<td>$100</td>
+										<td>Delivered</td>
+									</tr>
+									<tr>
+										<td>#1002</td>
+										<td>2023-05-25</td>
+										<td>Product C</td>
+										<td>$50</td>
+										<td>Cancelled</td>
+									</tr>
+									<!-- Add more rows for additional orders -->
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+						<h3 class="mb-4">Address</h3>
+
+						<form method="post">
+							{% csrf_token %}
+							<div class="row">
+								<div class="form-group">
+									<label for="house">House/Building Number:</label>
+									<input type="text" id="house" name="house" required value="{{address.house_no}}">
+								</div>
+								<div class="form-group">
+									<label for="locality">Locality/Landmark:</label>
+									<input type="text" id="locality" name="locality" required value="{{address.landmark}}">
+								</div>
+								<div class="form-group">
+									<label for="city">City/Town/Village:</label>
+									<input type="text" id="city" name="city" required value="{{address.city}}">
+								</div>
+								<div class="form-group">
+									<label for="state">State/Union Territory:</label>
+									<select id="state" name="state" required>
+										{% if address.state %}
+											<option value="{{ address.state }}">{{ address.state }}</option>
+										{% else %}
+											<option value="">--Select State/Union Territory--</option>
+										{% endif %}
+										<option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+										<option value="Andhra Pradesh">Andhra Pradesh</option>
+										<option value="Arunachal Pradesh">Arunachal Pradesh</option>
+										<option value="Assam">Assam</option>
+										<option value="Bihar">Bihar</option>
+										<option value="Chandigarh">Chandigarh</option>
+										<option value="Chhattisgarh">Chhattisgarh</option>
+										<option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+										<option value="Daman and Diu">Daman and Diu</option>
+										<option value="Delhi">Delhi</option>
+										<option value="Goa">Goa</option>
+										<option value="Gujarat">Gujarat</option>
+										<option value="Haryana">Haryana</option>
+										<option value="Himachal Pradesh">Himachal Pradesh</option>
+										<option value="Jammu and Kashmir">Jammu and Kashmir</option>
+										<option value="Jharkhand">Jharkhand</option>
+										<option value="Karnataka">Karnataka</option>
+										<option value="Kerala">Kerala</option>
+										<option value="Lakshadweep">Lakshadweep</option>
+										<option value="Madhya Pradesh">Madhya Pradesh</option>
+										<option value="Maharashtra">Maharashtra</option>
+										<option value="Manipur">Manipur</option>
+										<option value="Meghalaya">Meghalaya</option>
+										<option value="Mizoram">Mizoram</option>
+										<option value="Nagaland">Nagaland</option>
+										<option value="Odisha">Odisha</option>
+										<option value="Puducherry">Puducherry</option>
+										<option value="Punjab">Punjab</option>
+										<option value="Rajasthan">Rajasthan</option>
+										<option value="Sikkim">Sikkim</option>
+										<option value="Tamil Nadu">Tamil Nadu</option>
+										<option value="Telangana">Telangana</option>
+										<option value="Tripura">Tripura</option>
+										<option value="Uttar Pradesh">Uttar Pradesh</option>
+										<option value="Uttarakhand">Uttarakhand</option>
+										<option value="West Bengal">West Bengal</option>
+										<!-- Add more options for other states/union territories -->
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="pincode">PIN Code/Postal Code:</label>
+									<input type="text" id="pincode" name="pincode" required value="{{address.pincode}}">
+								</div>
+								<div class="form-group">
+									<label for="country">Country:</label>
+									<input type="text" id="country" name="country" value="India" readonly>
+								</div>
+							</div>
+							<div>
+								<button class="btn btn-primary">Update</button>
+								<button class="btn btn-light">Cancel</button>
+							</div>
+						</form>
+					</div>
+
+
+					<div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
+						<!-- <h3 class="mb-4"></h3> -->
+						<button class="btn btn-primary">Update</button>
+						<button class="btn btn-primary">Update</button>
+						<button class="btn btn-primary">Update</button>
+						<button class="btn btn-primary">Update</button>
+						<button class="btn btn-primary">Update</button>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>

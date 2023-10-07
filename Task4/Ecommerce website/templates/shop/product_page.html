@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{product.product_name}}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/index/css/bootstrap.css" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/btn.css">
+    <link rel="stylesheet" href="/static/css/shop/product_page.css">
+</head>
+
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <div class="wrapper">
+            <div class="product-box">
+                <div class="all-img">
+                    <div class="images">
+                        <img src="{{product.image1.url}}" onclick="clickimg(this) " alt="">
+                        <img src="{{product.image2.url}}" onclick="clickimg(this) " alt="">
+                        <img src="{{product.image3.url}}" onclick="clickimg(this) " alt="">
+                        <img src="{{product.image4.url}}" onclick="clickimg(this) " alt="">
+                    </div>
+                    <div class="image">
+                        <img src="{{product.image1.url}}" id="main-img" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="product-details">
+                <div class="details">
+                    <p class="brand">Brand : {{product.brand}}</p>
+                    <h2>{{product.description}}</h2>
+                    <div class="review">
+                        <span>(4.6)</span>
+                        <span>&starf;</span>
+                    </div>
+                    <div class="price-box">
+                        <p class="price">&#8377; {{product.price}}</p>
+                        <strike>&#8377; {{product.price|add:"1000" }}</strike>
+                    </div>
+                    <button class="cart" id="pbtn-{{product.pk}}"> <a href="/shop/addtocart/?pid={{product.pk}}">
+                        <span class="fa fa-shopping-cart"></span>
+                        Add to Cart</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'toast.html' %}
+    <script>
+        function clickimg(smallImg) {
+            var image = document.getElementById("main-img")
+            image.src = smallImg.src
+        }
+    </script>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/addtocart.js"></script>
+
+</body>
+
+</html>
