@@ -1,0 +1,9 @@
+@import '/static/css/mainapp/base.css';
+
+body {
+    overflow-y: scroll;
+}
+
+.header{
+    height: 4rem;
+}

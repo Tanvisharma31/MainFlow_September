@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import '/static/css/colors.css';
+
+a{
+    text-decoration: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: unset;
+}
+
+.n-btns {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem;
+    box-sizing: unset;
+    /* background: var(--primary-04); */
+}
+
+.n-btns-center{
+    justify-content: center;
+}
+
+.n-btns-space-evenly{
+    justify-content: space-evenly;
+}
+
+.n-btns-space-between{
+    justify-content: space-between;
+}
+
+.n-btns-space-around{
+    justify-content: space-around;
+}
+
+.n-btn {
+    padding: 0.7rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    width: 5rem;
+    margin: 0 auto;
+    border-radius: 30px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: "Lato", sans-serif;
+    color: var(--darkOne);
+    background: var(--btn-1);
+    /* box-shadow: 3px 3px 8px var(--boxshadow1), -3px -3px 8px var(--boxshadow2); */
+    transition: all 0.5s;
+    color: var(--gray-01);
+}
+
+.n-btn:hover{
+    background: var(--btn-1-hover);
+}
+
+.bg-red {
+    background: red;
+}

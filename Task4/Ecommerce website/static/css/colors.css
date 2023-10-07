@@ -1,0 +1,32 @@
+:root {
+    --gray-01: #F9FAFB;
+    --gray-02: #E4E7EC;
+    --gray-03: #98A2B3;
+    --gray-04: #475467;
+    --gray-05: #1D2939;
+
+    --btn-1: #d1114d;
+    --btn-1-hover: #d6517c;
+
+    --error: #f04438;
+    --warning: #fdb022;
+    --success: green;
+
+    --bg-color : #e9ecef ;
+    --card-bg : #fff;
+}
+
+.light {
+    --bg-color : #e9ecef ;
+    --darkOne: #312f3a;
+    --darkTwo: #45424b;
+    --lightOne: #919191;
+    --lightTwo: #aaa;
+}
+
+.dark {
+    --darkOne: #f3f3f3;
+    --darkTwo: #fff;
+    --lightOne: #ccc;
+    --lightTwo: #e7e3e3;
+}
